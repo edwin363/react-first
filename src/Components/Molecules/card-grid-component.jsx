@@ -1,5 +1,6 @@
 import React from "react";
-import Card from "./card-component";
+import Card from "../Atoms/card-component";
+import Menu from "./menu-component";
 
 const becas = [
     {
@@ -45,7 +46,10 @@ const becas = [
 ]
 
 const cardGrid = () =>(
-    <div className="container">
+    <>
+    <Menu/>
+    <br/>
+        <div className="container">
         <div className="row">
             {becas.map(b => <Card 
                 title={b.title} 
@@ -57,6 +61,7 @@ const cardGrid = () =>(
             />)}
         </div>
     </div>
+    </>
 )
 
 export default cardGrid
