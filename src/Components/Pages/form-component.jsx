@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Menu from "../Molecules/menu-component";
 import axios from "axios";
 import { SERVER } from "../../app.config";
+import { arrayExpression } from "@babel/types";
 
 class Form extends Component {
   constructor(props) {
@@ -12,8 +13,21 @@ class Form extends Component {
       email: "",
       password: "",
       subPassword: "",
-      response: ""
+      response: "",
+      roles: [],
+      idRol: 0
     };
+  }
+
+  componentDidMount(){
+    axios.get(`${SERVER}/roles`)
+    .then(res => {
+      const rol = res.data.slice(1);
+      console.log(rol)
+      this.setState({
+        roles: rol 
+      })
+    })
   }
 
   handleChange = key => {
@@ -34,14 +48,16 @@ class Form extends Component {
         const users = {
             user: this.state.user,
             email: this.state.email,
+            idRol: this.state.idRol,
             password: this.state.password,
             subPassword: this.state.subPassword
         }
   
         axios.post(`${SERVER}/users`, users).then(res => {
+          console.log(res)
             if(res.status == 200){
-                this.props.history.push('/students');
-            }
+                this.props.history.push('/login');
+            }            
         })
       }
       else{
@@ -59,9 +75,21 @@ class Form extends Component {
             <h1>Registro</h1>
             <div className="card">
               <div className="card-body">
-                <form action="/hola">
+                <form>
                   <div className="row">
                     <div className="form-group col-6">
+                      <label htmlFor="">Usted es:</label>
+                      <select className="form-control form-control-sm" onChange={this.handleChange("idRol")}>
+                        <option>Selecc..</option>
+                        {
+                          this.state.roles.map(rolObj => (
+                            <option key={rolObj.id} value={rolObj.id}>
+                              {rolObj.name}
+                            </option>
+                          ))
+                        }
+                      </select>
+                      <br></br>
                       <label>Usuario:</label>
                       <input
                         type="text"

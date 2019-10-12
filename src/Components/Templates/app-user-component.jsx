@@ -10,25 +10,38 @@ class AppToUser extends Component {
     this.state = {
       levels: [],
       scholarshipTypes: [],
+      idScholarType:0,
       countries: [],
       univesities: [],
       idCountry: 0,
       careers: [],
+      idCareer:0,
       territories: [],
       idUniversity: 0,
       notePaes: 0,
-      yearContract: "",
-      contractAmount: "",
       information: "",
       benefiteds: "",
-      idTerritory: 0
+      idTerritory: 0,
+      title: "",
+      idLevel: 0,
+      idAcademicLevel: 0,
+      idRequirement: 0,
+      quotas: 0,
+      idUser: 0,
+      idDetail: 0 
     };
   }
 
   componentDidMount() {
     const routes = ["academiclevel", "scholarshiptype", "countries", "territories"];
     const requests = routes.map(route => axios.get(`${SERVER}/${route}`));
-
+    //console.log(this.props.match.params.user)
+    axios.get(`${SERVER}/users/${this.props.match.params.user}`).then(res =>{
+      console.log(res.data)
+      this.setState({
+        idUser:res.data
+      })
+    })
     Promise.all(requests)
       .then(([dataLevels, dataScholarshipTypes, dataCountries, dataTerritories]) => [
         dataLevels.data,
@@ -44,6 +57,7 @@ class AppToUser extends Component {
   changeCountry = e => {
     const idCountry = e.target.value;
     this.setState({ idCountry }, () => {
+      console.log(this.state.idCountry)
       axios(`${SERVER}/universities/country/${idCountry}`).then(res =>
         this.setState({ univesities: res.data })
       );
@@ -59,13 +73,6 @@ class AppToUser extends Component {
     });
   };
 
-  changeTerritory = e => {
-    const idTerritorys = e.target.value;
-    this.setState({
-      idTerritory: idTerritorys
-    })
-  }
-
   handleChange = (key) => {
     return (e) => this.setState({
       [key]: e.target.value
@@ -76,14 +83,86 @@ class AppToUser extends Component {
 
   handleSubmit = (e) =>{
     e.preventDefault();
-    const contract = {
-      territory_id: this.state.idTerritory,
-      year_contract: this.state.yearContract
+
+    const scholarship = {
+      title: this.state.title,
+      requirements_id: this.state.idRequirement,
+      scholarship_detail_id: this.state.idDetail,
+      quotas: this.state.quotas,
+      scholar_id: this.state.idUser      
     }
+    //console.log(scholarship)
+    axios.post(`${SERVER}/scholarship`, scholarship).then( resp => {
+      if(resp.status == 200){
+        this.props.history.push(`/dashboard/${this.props.match.params.user}`);
+      }
+    })
+  }
+
+  handleSubmitDetail = e => {
+    e.preventDefault();
+    const sholarDetail = {
+      information: this.state.information,
+      territory_id: this.state.idTerritory,
+      scholarship_type_id: this.state.idScholarType,
+      country_id: this.state.idCountry,
+      university_id: this.state.idUniversity,
+      career_id: this.state.idCareer
+    }
+    console.log(sholarDetail)
+    axios.post(`${SERVER}/scholarship_detail`, sholarDetail)
+    .then(res => {
+      console.log(res.data)
+      this.setState({
+        idDetail: res.data
+      })
+    })
+  }
+
+  handleSubmitRequirement = (e) =>{
+    e.preventDefault();
+    const requirements = {
+      academic_level_id: this.state.idLevel,
+      paes_note: this.state.notePaes
+    }
+
+    axios.post(`${SERVER}/requirement`, requirements).then(res =>{
+      console.log(res)
+      console.log(res.data)
+      this.setState({
+        idRequirement: res.data
+      })
+    })
+  }
+
+  resetState = () => {
+    this.setState({
+      levels: [],
+      scholarshipTypes: [],
+      idScholarType:0,
+      countries: [],
+      univesities: [],
+      idCountry: 0,
+      careers: [],
+      idCareer:0,
+      territories: [],
+      idUniversity: 0,
+      notePaes: 0,
+      information: "",
+      benefiteds: "",
+      idTerritory: 0,
+      title: "",
+      idLevel: 0,
+      idAcademicLevel: 0,
+      idRequirement: 0,
+      quotas: 0,
+      idUser: 0,
+      idDetail: 0 
+    })
   }
   
   render() {
-    const { idCountry, idUniversity } = this.state;
+    const { idCountry, idUniversity, idTerritory} = this.state;
     return (
       <>
         <MenuToUser />
@@ -99,7 +178,8 @@ class AppToUser extends Component {
                     <h3 className="card-title">Academico</h3>
                     <div className="card-body">
                       <label htmlFor="">Titulacion</label>
-                      <select className="form-control form-control-sm">
+                      <select className="form-control form-control-sm" onChange={this.handleChange("idLevel")}>
+                        <option>select...</option>
                         {this.state.levels.map(levelObj => (
                           <option key={levelObj.id} value={levelObj.id}>
                             {levelObj.academic_level}
@@ -107,14 +187,31 @@ class AppToUser extends Component {
                         ))}
                       </select>
                       <label htmlFor="">Nota paes</label>
-                      <input className="form-control" type="text" name="paes" />
-                    </div>
+                      <input className="form-control" type="text" name="paes" onChange={this.handleChange("notePaes")}/>
+                      <br/>
+                      <button type="submit" 
+                      className="btn btn-success" onClick={this.handleSubmitRequirement}>Guardar requerimientos</button>
+                    </div>                    
                   </div>
                   <div className="card col-4">
                     <h3 className="card-title">Informacion de beca</h3>
-                    <div className="card-body">                      
+                    <div className="card-body">
+                        <label htmlFor="">Informacion</label>
+                        <textarea className="form-control" rows="1" onChange={this.handleChange("information")}/>
+                        <label htmlFor="">Territorio</label>
+                        <select className="form-control form-control-sm" onChange={this.handleChange("idTerritory")}>
+                          <option>select...</option>
+                          {
+                            this.state.territories.map(terr => (
+                              <option key={terr.id} value={terr.id}>
+                                {terr.territory}
+                              </option>
+                            ))
+                          }                          
+                        </select>                      
                         <label htmlFor="">Tipo de beca</label>                               
-                        <select className="form-control form-control-sm">
+                        <select className="form-control form-control-sm" onChange={this.handleChange("idScholarType")}>
+                          <option>select...</option>
                           {this.state.scholarshipTypes.map(scholar => (
                             <option key={scholar.id} value={scholar.id}>
                               {scholar.scholarship_type}
@@ -127,6 +224,7 @@ class AppToUser extends Component {
                           value={idCountry}
                           onChange={this.changeCountry}
                         >
+                          <option>select...</option>
                           {this.state.countries.map(country => (
                             <option key={country.id} value={country.id}>
                               {country.country}
@@ -139,7 +237,7 @@ class AppToUser extends Component {
                         value={idUniversity} 
                         onChange={this.changeUniversity}
                         >
-                          <option>seleccion</option>
+                          <option>select...</option>
                           {this.state.univesities.map(university => (
                             <option key={university.id} value={university.id}>
                               {university.university}
@@ -147,48 +245,32 @@ class AppToUser extends Component {
                           ))}
                         </select>
                         <label htmlFor="">Carreras</label>
-                        <select className="form-control form-control-sm">
-                          <option>seleccion</option>
+                        <select className="form-control form-control-sm" onChange={this.handleChange("idCareer")}>
+                          <option>select...</option>
                           {this.state.careers.map(career => (
                             <option key={career.id} value={career.id}>
                               {career.career}
                             </option>
                           ))}
-                        </select>                      
-                    </div>
-                  </div>
-                  <div className="card col-4">
-                    <h3 className="card-title">Informacion del contrato</h3>
-                    <div class="alert alert-danger" role="alert">
-                      Enviar este formulario primero!
-                    </div>
-                    <div className="card-body">
-                        <label htmlFor="">Territorio</label>
-                        <select className="form-control form-control-sm">
-                        {this.state.territories.map(territory => (
-                            <option key={territory.id} value={territory.id}>
-                              {territory.territory}
-                            </option>
-                          ))}
                         </select>
-                        <label htmlFor="">Año contrato</label>
-                        <input className="form-control" type="text" name="year" onChange={this.handleChange("yearContract")}/>
-                        <label htmlFor="">Monto del contrato</label>
-                        <input className="form-control" type="text" name="monto" onChange={this.handleChange("contractAmount")}/>
-                        <label htmlFor="">Informacion</label>
-                        <input className="form-control" type="text" name="year" onChange={this.handleChange("information")}/>
-                        <label htmlFor="">Beneficiados</label>
-                        <input type="text" name="benefiteds" className="form-control" onChange={this.handleChange("benefiteds")}/>
-                        <br/>             
-                        <button className="btn btn-success">
-                          Crear contrato
-                        </button>
-                    </div>                              
+                        <br/>
+                        <button type="submit" 
+                        className="btn btn-success" onClick={this.handleSubmitDetail}>Guardar informacion</button>                   
+                    </div>
                   </div>
+                    <div className="card col-4">
+                    <h3 className="card-title">Informacion de beca</h3>
+                    <div className="card-body">
+                        <label htmlFor="">Titulo</label>
+                        <input type="text" className="form-control" onChange={this.handleChange("title")}/>
+                        <label htmlFor="">Cupos</label>
+                        <input className="form-control" type="text" onChange={this.handleChange("quotas")}/>
+                    </div>
+                  </div>                 
                 </div>
               </div>
               <br/>
-              <button className="btn btn-primary">
+              <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>
                 Crear oportunidad
               </button>
             </div>

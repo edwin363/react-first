@@ -1,23 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Button } from "react-bootstrap"
 
-const Card = ({ title, subtitle, link, contract, quotas, scholar }) => (
-  <div className="col-6">
-    <div className="card">
-      <div className="card-body">
-        <h5 className="card-title">{title}</h5>
-        <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>
+const Card = ({ title, subtitle, link, state, quotas }) => (
+  <div className="col-4">
+    <div className="card border-secondary">
+      <div className="card-header">{title}</div>
+      <div className="card-body text-secondary">
+        <h5 className="card-title">{subtitle}</h5>
         <p className="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-          {(contract, quotas, scholar)}
+          <h5>Estado de la beca: {state}</h5>
+          <h6>Los cupos son: {quotas}</h6>
         </p>
         <a href="#" className="card-link">
           {link}
         </a>
-        <a href="#" className="card-link">
-          Another link
-        </a>
+        <Button variant="primary">primary</Button>
       </div>
     </div>
   </div>
@@ -30,9 +28,11 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-  title: "No hay titulo",
-  subtitle: "No hay sub-titulo",
-  link: "No hay link"
+  title: "id",
+  subtitle: "title dd",
+  link: "No puede aplicar",
+  quotas: 23,
+  state: "Estado"
 };
 
 export default Card;

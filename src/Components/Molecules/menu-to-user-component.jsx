@@ -5,7 +5,7 @@ import Item from "../Atoms/items-menu-component";
 
 const MenuToUser = () => (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    <Link to="/dashboard">
+    <Link to="/dashboard:user">
       <img
         src={logo}
         width="100"
@@ -16,8 +16,9 @@ const MenuToUser = () => (
     </Link>
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
-        <Item url="/dashboard" nameItem="Inicio"/>
+        <Item url="/dashboard:user" nameItem="Inicio"/>
         <Item nameItem="Perfil"/>
+        <Item url="/" nameItem="Cerrar sesion"/>
       </ul>
     </div>
   </nav>

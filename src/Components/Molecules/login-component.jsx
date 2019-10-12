@@ -3,6 +3,7 @@ import logo from "../../logo.png";
 import Menu from "./menu-component";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { SERVER } from "../../app.config";
 
 class Login extends Component {
   constructor(props) {
@@ -34,14 +35,14 @@ class Login extends Component {
       password: this.state.password
     };
 
-    axios.post(`http://127.0.0.1:8000/api/login`, users).then(res => {
+    axios.post(`${SERVER}/login`, users).then(res => {
       console.log(res);
-      /*if(res.status === 200 && res.data === "becario"){
+      if(res.status === 200 && res.data === "becario"){
         this.props.history.push(`/dashboard/${this.state.user}`);
       }
       if(res.status === 200 && res.data === "estudiante"){
-        this.props.history.push('/');
-      }*/
+        this.props.history.push(`/students`);
+      }
     });
   };
 

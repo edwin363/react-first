@@ -22,7 +22,6 @@ const Menu = () => (
         <Item url="/quienesosmos" nameItem="¿Quienes somos?"/>
         <Item url="/nosotros" nameItem="Nosotros"/>
         <Item url="/login" nameItem="Login"/>
-        <Item url="/prueba" nameItem="prueba"/>
       </ul>
     </div>
   </nav>
