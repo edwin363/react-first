@@ -1,12 +1,11 @@
 import React from "react"
 import { Link } from "react-router-dom";
+import { Navbar } from "react-bootstrap";
 
 const Item = ({ url, nameItem }) => (
-    <li className="nav-item">
-        <div className="nav-link">
-            <Link to={`${url}`}>{nameItem}</Link>
-        </div>
-    </li>
+    <Navbar.Brand>
+        <Link to={`${url}`} className="text-light">{nameItem}</Link>        
+    </Navbar.Brand>
 )
 
 export default Item

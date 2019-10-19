@@ -1,30 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../logo.png";
+import logo from "../../final_logo.png";
 import Item from "../Atoms/items-menu-component";
+import { Navbar } from "react-bootstrap";
 
 const Menu = () => (
-  <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    <Link to="/">
+    <Navbar bg="dark" variant="dark" className="col-sm-12 col-lg-12">
+      <Navbar.Brand>
       <img
         src={logo}
-        width="100"
+        width="80"
         height="60"
         className="d-inline-block align-top"
         alt="Logo"
       />
-    </Link>
-    <div className="collapse navbar-collapse" id="navbarNav">
-      <ul className="navbar-nav">
-        <Item url="/" nameItem="Inicio"/>
-        <Item url="/registro" nameItem="Registrate"/>
-        <Item url="/becas" nameItem="Becas"/>
-        <Item url="/quienesosmos" nameItem="¿Quienes somos?"/>
-        <Item url="/nosotros" nameItem="Nosotros"/>
-        <Item url="/login" nameItem="Login"/>
-      </ul>
-    </div>
-  </nav>
+      </Navbar.Brand>
+      <Item url="/" nameItem="Inicio"/>
+    </Navbar>
 );
 
 export default Menu;
