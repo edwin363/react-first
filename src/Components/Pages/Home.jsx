@@ -6,6 +6,7 @@ import axios from "axios";
 import { SERVER } from "../../app.config";
 import Carousels from "../Molecules/carousel-component";
 import CarouselCard from "../Molecules/carouselCard-component";
+import { modalCardOne, modalCardTwo, modalCardThree } from "../../Information/informationPage";
 
 class Home extends Component {
 
@@ -13,8 +14,7 @@ class Home extends Component {
         super(props)
 
         this.state = {
-            home: [],
-            information: "El Programa de Becas BECATEL para Educacion superior se genera como una..."
+            home: []
         }
     }
 
@@ -51,29 +51,41 @@ class Home extends Component {
                     </Row>
                     <br/>
                     <Row>
-                        <Col lg={4} sm={12}>
+                        <Col lg={3} sm={12}>
                             <CarouselCard 
                             classColor="dark" 
                             textColor="text-white" 
                             title="¿Quienes somos?"
-                            bodyText={this.state.information.substring(0, 6)}
+                            bodyText={modalCardOne.desc.substring(0, 40)+"..."}
+                            textModal={modalCardOne}                         
                             imgUrl="https://footage.framepool.com/shotimg/qf/236513015-deberes-para-el-hogar-campus-estudiar-biblioteca.jpg"/>
                         </Col>
-                        <Col lg={4} sm={12}>
+                        <Col lg={3} sm={12}>
                             <CarouselCard 
                             classColor="light" 
                             textColor="text-dark" 
                             title="Objetivos"
-                            bodyText={this.state.information.substring(0, 6)}
+                            bodyText={modalCardTwo.desc.substring(0, 50)+"..."}
+                            textModal={modalCardTwo}                                                   
                             imgUrl="https://wikingenieria.com/wp-content/uploads/2018/09/no-se-que-carrera-elegir.png"/>
                         </Col>
-                        <Col lg={4} sm={12}>
+                        <Col lg={3} sm={12}>
                             <CarouselCard 
                             classColor="dark" 
                             textColor="text-white " 
                             title="Requisitos"
-                            bodyText={this.state.information.substring(0, 6)}
+                            bodyText={modalCardThree.desc.substring(0, 50)+"..."}
+                            textModal={modalCardThree}                         
                             imgUrl="https://noticierouniversal.com/wp-content/uploads/2018/10/1177967c791522103428_standard_desktop_fullhd.png"/>
+                        </Col>
+                        <Col lg={3} sm={12}>
+                            <CarouselCard 
+                            classColor="light" 
+                            textColor="text-dark" 
+                            title="Noticias"
+                            bodyText={modalCardTwo.desc.substring(0, 50)+"..."}
+                            textModal={modalCardTwo}                                                   
+                            imgUrl="http://erasmusplus.org.ge/files/news/news-1.jpg"/>
                         </Col>
                     </Row>                
                 </Container>

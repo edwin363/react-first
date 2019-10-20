@@ -13,7 +13,7 @@ class CarouselCard extends Component {
 
     render() {
         let addModalClose = () => this.setState({addModalShow: false})
-        const {classColor, textColor, imgUrl, bodyText, title} = this.props
+        const {classColor, textColor, imgUrl, bodyText, title, textModal} = this.props
         return (
             <Card bg={classColor} className={textColor}>
                 <Card.Img variant="top" src={imgUrl} />
@@ -28,7 +28,7 @@ class CarouselCard extends Component {
                         >
                             Leer mas...
                         </Button>
-                        <Modals show={this.state.addModalShow} onHide={addModalClose}/>
+                        <Modals show={this.state.addModalShow} onHide={addModalClose} textModal={textModal}/>
                     </ButtonToolbar>
                 </Card.Body>
             </Card>

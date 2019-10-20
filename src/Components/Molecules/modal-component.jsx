@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Button, ButtonToolbar } from "react-bootstrap"
+import { Modal, Button, ButtonToolbar, Card } from "react-bootstrap"
 import MyVerticallyCenteredModal from "../Atoms/centered-modal-component";
 
 class Modals extends Component {
@@ -8,6 +8,9 @@ class Modals extends Component {
     }
 
     render() {
+
+        const { textModal } = this.props
+
         return (
             <Modal
                 {...this.props}
@@ -16,17 +19,15 @@ class Modals extends Component {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Modal heading
-        </Modal.Title>
+                    <Modal.Title id="contained-modal-title-vcenter">                        
+                        <Card.Img variant="top" src={textModal.img} />
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4>Centered Modal</h4>
+                    <h4>{textModal.heading}</h4>
                     <p>
-                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                        consectetur ac, vestibulum at eros.
-        </p>
+                        {textModal.desc}
+                    </p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.onHide}>Close</Button>
