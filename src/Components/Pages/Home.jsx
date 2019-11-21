@@ -18,25 +18,16 @@ class Home extends Component {
         }
     }
 
-    /*componentDidMount(){
+    componentDidMount() {
         axios.get(`${SERVER}/home`)
-        .then(res => {
-            const home = res.data
-            this.setState({
-                home: home
-            })
-            
-        })
-    }*/
-    /**
-     *  <>
-                <Menu/>
-                {this.state.home.map(h => 
-                    <News key={h.id} title={h.title} information={h.information}/>
-                )}
-            </>
-     */
+            .then(res => {
+                const home = res.data
+                this.setState({
+                    home: home
+                })
 
+            })
+    }
 
     render() {
         return (
@@ -46,50 +37,58 @@ class Home extends Component {
                 <Container>
                     <Row>
                         <Col lg={12}>
-                            <Carousels/>
-                        </Col>                      
+                            <Carousels />
+                        </Col>
                     </Row>
-                    <br/>
+                    <br />
                     <Row>
                         <Col lg={3} sm={12}>
-                            <CarouselCard 
-                            classColor="dark" 
-                            textColor="text-white" 
-                            title="¿Quienes somos?"
-                            bodyText={modalCardOne.desc.substring(0, 40)+"..."}
-                            textModal={modalCardOne}                         
-                            imgUrl="https://footage.framepool.com/shotimg/qf/236513015-deberes-para-el-hogar-campus-estudiar-biblioteca.jpg"/>
+                            <CarouselCard
+                                key="1"
+                                classColor="dark"
+                                textColor="text-white"
+                                title="¿Quienes somos?"
+                                bodyText={modalCardOne.information.substring(0, 40) + "..."}
+                                textModal={modalCardOne}
+                                imgUrl="https://footage.framepool.com/shotimg/qf/236513015-deberes-para-el-hogar-campus-estudiar-biblioteca.jpg" />
                         </Col>
                         <Col lg={3} sm={12}>
-                            <CarouselCard 
-                            classColor="light" 
-                            textColor="text-dark" 
-                            title="Objetivos"
-                            bodyText={modalCardTwo.desc.substring(0, 50)+"..."}
-                            textModal={modalCardTwo}                                                   
-                            imgUrl="https://wikingenieria.com/wp-content/uploads/2018/09/no-se-que-carrera-elegir.png"/>
+                            <CarouselCard
+                                key="2"
+                                classColor="light"
+                                textColor="text-dark"
+                                title="Objetivos"
+                                bodyText={modalCardTwo.information.substring(0, 50) + "..."}
+                                textModal={modalCardTwo}
+                                imgUrl="https://wikingenieria.com/wp-content/uploads/2018/09/no-se-que-carrera-elegir.png" />
                         </Col>
                         <Col lg={3} sm={12}>
-                            <CarouselCard 
-                            classColor="dark" 
-                            textColor="text-white " 
-                            title="Requisitos"
-                            bodyText={modalCardThree.desc.substring(0, 50)+"..."}
-                            textModal={modalCardThree}                         
-                            imgUrl="https://noticierouniversal.com/wp-content/uploads/2018/10/1177967c791522103428_standard_desktop_fullhd.png"/>
+                            <CarouselCard
+                                key="3"
+                                classColor="dark"
+                                textColor="text-white "
+                                title="Requisitos"
+                                bodyText={modalCardThree.information.substring(0, 50) + "..."}
+                                textModal={modalCardThree}
+                                imgUrl="https://noticierouniversal.com/wp-content/uploads/2018/10/1177967c791522103428_standard_desktop_fullhd.png" />
                         </Col>
                         <Col lg={3} sm={12}>
-                            <CarouselCard 
-                            classColor="light" 
-                            textColor="text-dark" 
-                            title="Noticias"
-                            bodyText={modalCardTwo.desc.substring(0, 50)+"..."}
-                            textModal={modalCardTwo}                                                   
-                            imgUrl="http://erasmusplus.org.ge/files/news/news-1.jpg"/>
+                            {
+                                this.state.home.map(h =>
+                                    <CarouselCard
+                                        key="4"
+                                        classColor="light"
+                                        textColor="text-dark"
+                                        title="Noticias"
+                                        bodyText={h.information.substring(0, 50) + "..."}
+                                        textModal={h}
+                                        url="https://www.envirocopper.com.au/sites/envirocopper/media/banners/news.jpg"
+                                        imgUrl="http://erasmusplus.org.ge/files/news/news-1.jpg" />
+                                )}
                         </Col>
-                    </Row>                
+                    </Row>
                 </Container>
-                <br/>
+                <br />
             </>
         )
     }

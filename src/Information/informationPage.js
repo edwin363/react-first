@@ -33,18 +33,18 @@ const cardThree = "El programa esta dirigido exclusivamente a los (as) salvadore
 
 export const modalCardOne = {
     heading: "¿Quienes somos?",
-    desc: cardOneInf,
+    information: cardOneInf,
     img: "http://ambitodelaeducacion.com/wp-content/uploads/2016/03/5cd25c_las-mejores-universidades-de-educacion-a-distancia.jpg"
 }
 
 export const modalCardTwo = {
-    heading: "Objetivos",
-    desc: cardTwoInf,
+    title: "Objetivos",
+    information: cardTwoInf,
     img: "https://www.nuevatribuna.es/media/nuevatribuna/images/2016/11/24/2016112410223653326.jpg"
 }
 
 export const modalCardThree = {
     heading: "Requisitos",
-    desc: cardThree,
+    information: cardThree,
     img: "http://otrasvoceseneducacion.org/wp-content/uploads/2018/07/194802_540x329-750x410.jpg"
 }

@@ -7,12 +7,18 @@ class Modals extends Component {
         super(props)
     }
 
-    render() {
-
-        const { textModal } = this.props
+    render() {        
+        const { textModal, url } = this.props;
+        let image;
+        if(textModal.img == null && url != null){
+            image = <Card.Img variant="top" src={url} />
+        }else{
+            image = <Card.Img variant="top" src={textModal.img} />
+        }
 
         return (
-            <Modal
+            <>
+                <Modal
                 {...this.props}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -20,19 +26,20 @@ class Modals extends Component {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">                        
-                        <Card.Img variant="top" src={textModal.img} />
+                        {image}                                               
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4>{textModal.heading}</h4>
+                    <h4>{textModal.title}</h4>
                     <p>
-                        {textModal.desc}
+                        {textModal.information}
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.onHide}>Close</Button>
                 </Modal.Footer>
             </Modal>
+            </>
         )
     }
 }

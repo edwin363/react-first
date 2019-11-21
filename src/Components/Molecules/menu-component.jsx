@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../final_logo.png";
 import Item from "../Atoms/items-menu-component";
-import { Navbar } from "react-bootstrap";
+import { Navbar, Form, Button, FormControl, Nav } from "react-bootstrap";
 
 const Menu = () => (
     <Navbar bg="dark" variant="dark" className="col-sm-12 col-lg-12">
@@ -15,7 +15,16 @@ const Menu = () => (
         alt="Logo"
       />
       </Navbar.Brand>
-      <Item url="/" nameItem="Inicio"/>
+      <Nav className="mr-auto">
+        <Item url="/" nameItem="Inicio"/>
+        <Item url="/becas" nameItem="Becas"/>
+        <Item url="/registro" nameItem="Registrate"/>
+      </Nav>      
+      <Form inline>        
+        <Link to="/login">
+          <Button variant="outline-info">Sign in</Button>
+        </Link>
+    </Form>
     </Navbar>
 );
 

@@ -13,22 +13,22 @@ class CarouselCard extends Component {
 
     render() {
         let addModalClose = () => this.setState({addModalShow: false})
-        const {classColor, textColor, imgUrl, bodyText, title, textModal} = this.props
+        const {classColor, textColor, imgUrl, bodyText, title, textModal, url} = this.props
         return (
             <Card bg={classColor} className={textColor}>
                 <Card.Img variant="top" src={imgUrl} />
                 <Card.Body>
                     <Card.Title>{title}</Card.Title>
-                    <Card.Text>
-                        {bodyText}
-                    </Card.Text>                    
+                    <Card.Text>                        
+                        {bodyText}                                               
+                    </Card.Text>
                     <ButtonToolbar>
                         <Button variant="primary"
                             onClick={() => this.setState({addModalShow: true})}
                         >
                             Leer mas...
                         </Button>
-                        <Modals show={this.state.addModalShow} onHide={addModalClose} textModal={textModal}/>
+                        <Modals show={this.state.addModalShow} onHide={addModalClose} textModal={textModal} url={url}/>
                     </ButtonToolbar>
                 </Card.Body>
             </Card>

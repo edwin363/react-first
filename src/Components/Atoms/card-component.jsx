@@ -2,6 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap"
 
+
+function aplicant(){
+  
+}
+
 const Card = ({ title, subtitle, link, state, quotas }) => (
   <div className="col-4">
     <div className="card border-secondary">
@@ -11,11 +16,10 @@ const Card = ({ title, subtitle, link, state, quotas }) => (
         <p className="card-text">
           <h5>Estado de la beca: {state}</h5>
           <h6>Los cupos son: {quotas}</h6>
-        </p>
-        <a href="#" className="card-link">
+        </p>        
+        <Button variant="primary" onClick={aplicant}>
           {link}
-        </a>
-        <Button variant="primary">primary</Button>
+        </Button>
       </div>
     </div>
   </div>
@@ -28,11 +32,11 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-  title: "id",
-  subtitle: "title dd",
+  title: "1",
+  subtitle: "Universidad UDB",
   link: "No puede aplicar",
   quotas: 23,
-  state: "Estado"
+  state: "Activa"
 };
 
 export default Card;

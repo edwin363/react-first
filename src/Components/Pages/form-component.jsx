@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Menu from "../Molecules/menu-component";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 import { SERVER } from "../../app.config";
 import { arrayExpression } from "@babel/types";
+import { Form, Col, Button } from "react-bootstrap";
 
-class Form extends Component {
+class Forms extends Component {
   constructor(props) {
     super(props);
 
@@ -14,19 +16,24 @@ class Form extends Component {
       password: "",
       subPassword: "",
       response: "",
-      roles: [],
-      idRol: 0
+      validated: false,
+      setValidated: false,
+      location: "",
+      role_id: 0
     };
   }
 
   componentDidMount(){
-    axios.get(`${SERVER}/roles`)
+    /*vaxios.get(`${SERVER}/roles`)
     .then(res => {
       const rol = res.data.slice(1);
       console.log(rol)
       this.setState({
         roles: rol 
       })
+    })*/
+    this.setState({
+      location: window.location.pathname
     })
   }
 
@@ -43,104 +50,126 @@ class Form extends Component {
   };
 
   handleSubmit = (e) => {
-      e.preventDefault();
-      if(this.state.password === this.state.subPassword){
-        const users = {
-            user: this.state.user,
-            email: this.state.email,
-            idRol: this.state.idRol,
-            password: this.state.password,
-            subPassword: this.state.subPassword
-        }
-  
-        axios.post(`${SERVER}/users`, users).then(res => {
-          console.log(res)
+    e.preventDefault();
+    if (this.state.password === this.state.subPassword) {
+      const rol = (this.state.location == '/dashboard/registro')? 2 : 3;
+      const users = {
+        user: this.state.user,
+        email: this.state.email,
+        password: this.state.password,
+        password_confirmation: this.state.subPassword,
+        role_id: rol
+      }
+      const route = (rol == 2)? '/dashboard/inicio':'/students';
+           
+        console.log(users);  
+        axios.post(`${SERVER}/signup`, users).then(res => {
+          console.log(res.data)
             if(res.status == 200){
-                this.props.history.push('/login');
+                //this.props.history.push('/valid');
+                return <Redirect to={route}/>
             }            
         })
-      }
-      else{
-        console.log("no es igual")
-      }
+    }
+    else {
+      this.setState({
+        setValidated: true
+      })
+      console.log("no es igual")
+    }
   }
 
-  render() {
+  render() {    
+    let menu
+    if(this.state.location == '/dashboard/registro'){
+      menu = ''
+    }else{
+      menu = <Menu />
+    }
     return (
       <>
-        <Menu />
+        {menu}
         <br />
         <div className="container">
           <div className="text-black-50">
-            <h1>Registro</h1>
+            <h1>Registro</h1>            
             <div className="card">
               <div className="card-body">
-                <form>
-                  <div className="row">
-                    <div className="form-group col-6">
-                      <label htmlFor="">Usted es:</label>
-                      <select className="form-control form-control-sm" onChange={this.handleChange("idRol")}>
-                        <option>Selecc..</option>
-                        {
-                          this.state.roles.map(rolObj => (
-                            <option key={rolObj.id} value={rolObj.id}>
-                              {rolObj.name}
-                            </option>
-                          ))
-                        }
-                      </select>
-                      <br></br>
-                      <label>Usuario:</label>
-                      <input
+                <Form>
+                  <Form.Row>
+                    <Form.Group as={Col} md="6" controlId="validationCustom01">
+                      <Form.Label>Usuario:</Form.Label>
+                      <Form.Control
+                        required
                         type="text"
+                        placeholder="Usuario"
                         onChange={this.handleChange("user")}
-                        className="form-control"
-                        required
                       />
-                    </div>
-                    <div className="form-group col-6">
-                      <label>E-mail:</label>
-                      <input
-                        type="email"
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        Please choose a username.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col} md="6" controlId="validationCustom02">
+                      <Form.Label>E-mail:</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="E-mail"
                         onChange={this.handleChange("email")}
-                        className="form-control"
-                        required
                       />
-                    </div>
-                    <div className="form-group col-6">
-                      <label>Contraseña:</label>
-                      <input
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        Please choose a username.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col} md="6" controlId="validationCustom03">
+                      <Form.Label>Contraseña:</Form.Label>
+                      <Form.Control
+                        required
                         type="password"
+                        placeholder="Contraseña"
                         onChange={this.handleChange("password")}
-                        className="form-control"
-                        required
                       />
-                    </div>
-                    <div className="form-group col-6">
-                      <label>Confirme su contraseña:</label>
-                      <input
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        Please choose a username.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col} md="6" controlId="validationCustom04">
+                      <Form.Label>Confirmar la contraseña:</Form.Label>
+                      <Form.Control
+                        required
                         type="password"
+                        placeholder="Contraseña"
                         onChange={this.handleChange("subPassword")}
-                        className="form-control"
-                        required
                       />
-                    </div>
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        Please choose a username.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Form.Row>
+                  <Form.Group>
+                    <Form.Check
+                      required
+                      label="Acepto los terminos y condiciones"
+                      feedback="You must agree before submitting."
+                    />
+                  </Form.Group>                  
+                </Form>
+                <div className="row">
+                  <div className="col-2">
+                    <Button type="submit" onClick={this.handleSubmit}>
+                      Registrarme
+                    </Button>
                   </div>
-                </form>
-                <div className="row">                                      
-                    <div className="col-2">
-                        <button type="submit" 
-                        className="btn btn-info" 
-                        onClick={this.handleSubmit}>
-                            Registrarme
-                        </button>                            
-                    </div>
-                    <div className="col-2">
-                        <button type="submit" 
-                        className="btn btn-warning">
-                            Cancelar
-                        </button>
-                    </div>
+                  <div className="col-2">
+                    <button type="submit"
+                      className="btn btn-warning">
+                      Cancelar
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -150,4 +179,4 @@ class Form extends Component {
     );
   }
 }
-export default Form;
+export default Forms;

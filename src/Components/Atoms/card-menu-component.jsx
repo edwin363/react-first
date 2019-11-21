@@ -26,7 +26,7 @@ class CardMenu extends Component {
               />
               <div className="card-img-overlay">
                 <div className="row">
-                  <Link className="btn btn-outline-primary" to={`/dashboard/scholarships/${user.user}`}>
+                  <Link className="btn btn-outline-primary" to={`/dashboard/scholarships`}>
                     Nueva beca
                   </Link>
                 </div>

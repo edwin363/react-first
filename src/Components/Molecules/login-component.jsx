@@ -1,18 +1,28 @@
-import React, { Component } from "react";
-import logo from "../../logo.png";
+import React, { Component, useState } from "react";
+import logo from "../../logo2.png";
 import Menu from "./menu-component";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { SERVER } from "../../app.config";
+import { useAuth } from "../../Context/auth";
+//import { errorMessage } from "../../../utilities/messages";
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      user: "",
-      password: ""
+      email: "",
+      password: "",
+      location: "",
+      checkPoint: false,
+      message: "",
+      isLoggedIn: false,
+      setLoggedIn: false,
     };
+    //const [userName, setUserName] = useState("");
+    //const [password, setPassword] = useState("");
+    //const { setAuthTokens } = useAuth();
   }
 
   handleChange = key => {
@@ -27,45 +37,77 @@ class Login extends Component {
       );
   };
 
+  handleToChangeCheck = (boolean) => {
+    if(this.state.checkPoint != boolean){
+        this.setState({
+          checkPoint: true
+        })
+    }
+  }
+
   handleSubmit = e => {
+    let setAuthTokens = useAuth()
     e.preventDefault();
-
-    const users = {
-      user: this.state.user,
-      password: this.state.password
+    const user = {
+      email: this.state.email,
+      password: this.state.password,
+      remember_me: this.state.checkPoint
     };
-
-    axios.post(`${SERVER}/login`, users).then(res => {
-      console.log(res);
-      if(res.status === 200 && res.data === "becario"){
-        this.props.history.push(`/dashboard/${this.state.user}`);
-      }
+    console.log(user)
+    axios.post(`${SERVER}/login`, user).then(res => {
+      console.log(res.data);
+      if(res.status === 200 && res.data === "becario" && this.state.location === '/dashboard/login'){
+        //this.props.history.push('/dashboard/inicio');
+        setAuthTokens(res.data);
+        this.setState({
+          setLoggedIn: true
+        })
+        return <Redirect to="/dashboard/inicio" />
+      }      
       if(res.status === 200 && res.data === "estudiante"){
-        this.props.history.push(`/students`);
+        //this.props.history.push('/students');
+        setAuthTokens(res.data)
+        this.setState({
+          setLoggedIn: true
+        })
+        return <Redirect to="/students" />
       }
     });
   };
 
+  componentDidMount(){
+    this.setState({
+      location: window.location.pathname
+    })
+  }
+
   render() {
+    let menu
+    if(this.state.location == '/dashboard/login'){
+      menu = ''
+    }else{
+      menu = <Menu />
+    }
     return (
       <>
-        <Menu></Menu>
+        {menu}
         <div className="container">
           <br />
           <br />
           <br />
+          {this.state.message}
           <div className="row">
             <div className="col-6">
               <div className="card">
                 <div className="card-body">
                   <h1 className="card-title">Login</h1>
-                  <form onSubmit={this.handleSubmit} method="post">
+                  <form>
                     <div className="form-group">
-                      <label>Usuario:</label>
+                      <label>Correo:</label>
                       <input
                         type="text"
                         className="form-control"
-                        onChange={this.handleChange("user")}
+                        onChange={this.handleChange("email")}
                       />
                     </div>
                     <div className="form-group">
@@ -76,13 +118,23 @@ class Login extends Component {
                         onChange={this.handleChange("password")}
                       />
                     </div>
-
-                    <div className="row">
+                    <div className="form-group">
+                    <input 
+                      type="checkbox" 
+                      id="cbox2" 
+                      value="second_checkbox"
+                      onClick={this.handleToChangeCheck(true)}
+                      /> 
+                    <label for="cbox2">recordame</label>
+                    </div>
+                  </form>
+                  <div className="row">
                       <div className="col-2">
                         <input
                           type="submit"
                           className="btn btn-outline-success btn"
                           value="Login"
+                          onClick={this.handleSubmit}
                         />
                       </div>
                       <div className="col-2">
@@ -93,7 +145,6 @@ class Login extends Component {
                         />
                       </div>
                     </div>
-                  </form>
                 </div>
                 <button type="button" className="btn btn-link">
                   <Link to="/registro">Registrate</Link>

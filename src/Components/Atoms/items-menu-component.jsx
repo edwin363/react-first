@@ -4,7 +4,7 @@ import { Navbar } from "react-bootstrap";
 
 const Item = ({ url, nameItem }) => (
     <Navbar.Brand>
-        <Link to={`${url}`} className="text-light">{nameItem}</Link>        
+        <Link to={`${url}`} className="text-light">{nameItem}</Link>
     </Navbar.Brand>
 )
 

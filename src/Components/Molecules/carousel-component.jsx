@@ -28,7 +28,7 @@ const Carousels = () => (
         <Carousel.Item>
             <Image
                 className="d-block w-100"
-                src="https://canal1.com.co/wp-content/uploads/2018/03/portafolio-de-est%C3%ADmulos-idartes-estudiantes-becas-alcaldia-de-bogota-800x400.jpg"
+                src="https://ngnoticias.com/wp-content/uploads/2019/07/B-Licenciaturas-800x400.jpg"
                 alt="hola1"
             />
             <Carousel.Caption>

@@ -18,7 +18,7 @@ class Scholarships extends Component {
                 <MenuToUser />
                 <br />
                 <div className="container">
-                    <CardMenu user={this.props.match.params}/>
+                    <CardMenu/>
                 </div>
             </div>
         )
